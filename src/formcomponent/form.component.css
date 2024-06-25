@@ -1,3 +1,7 @@
 .full-div {
     width: 100vh;
 }
+
+.bg-none {
+    background-color: #0000;
+}
