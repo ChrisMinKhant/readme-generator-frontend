@@ -1,0 +1,26 @@
+<form class="d-flex flex-column justify-content-start">
+    <div class="d-flex justify-content-center full-div">
+        <p class="fs-3 mb-3">Readme Info</p>
+    </div>
+
+    <div class="form-floating mb-3 full-div">
+        <input type="text" class="form-control" id="floatingInput" placeholder="example service">
+        <label for="floatingInput">Service Name</label>
+    </div>
+
+    <div class="form-floating mb-3 full-div">
+        <input type="text" class="form-control" id="floatingInput" placeholder="example category">
+        <label for="floatingInput">Service Category</label>
+    </div>
+
+    <div class="form-floating mb-3 full-div">
+        <input type="text" class="form-control" id="floatingInput" placeholder="example directory">
+        <label for="floatingInput">Readme Generation Directory</label>
+    </div>
+
+    <button type="button" (click)="addElement()">Clic Me</button>
+
+    <div #endpointform></div>
+
+    <button type="submit" class="btn btn-danger">Create</button>
+</form>
