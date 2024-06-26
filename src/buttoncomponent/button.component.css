@@ -1,0 +1,14 @@
+.grid-container {
+    height: 100vh;
+    width: auto;
+    display: grid;
+    grid-template-rows: auto auto;
+}
+
+.upper-grid {
+    grid-row: 1/1;
+}
+
+.lower-grid {
+    grid-row: 2/2;
+}

@@ -3,24 +3,50 @@ import {
   ComponentFactoryResolver,
   ComponentRef,
   Input,
+  Output,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
 import { RequestParamComponent } from '../requestparamcomponent/requestparam.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { IconDefinition, faPlus } from '@fortawesome/free-solid-svg-icons';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'endpoint-form',
-  imports:[RequestParamComponent,FontAwesomeModule],
+  imports: [
+    RequestParamComponent,
+    FontAwesomeModule,
+    FormsModule,
+    ReactiveFormsModule,
+  ],
   standalone: true,
   templateUrl: './endpointform.component.html',
   styleUrl: './endpointform.component.css',
 })
-
 export class EndpointFormComponent {
-  faPlus:IconDefinition = faPlus
+  // Endpoint Object Structure Start
+  endpointMap = new Map<number, any>();
+  requestParamMap = new Map<string, any>();
+
+  endpointPath: string = '';
+  endpointDescription: string = '';
+  exampleRequest: string = '';
+  exampleResponse: string = '';
+
+  endpoint = {
+    endpointPath: '',
+    endpointDescription: '',
+    exampleRequest: '',
+    exampleResponse: '',
+    requestParams: [],
+  };
+  // Endpoint Object Structure End
+
+  @Output() endpointInfoEmitter = new EventEmitter();
+
+  faPlus: IconDefinition = faPlus;
   @Input() endpointCount: number = 0;
 
   componentRef: ComponentRef<any> = null as any;
@@ -31,7 +57,7 @@ export class EndpointFormComponent {
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
 
-  addElement() {
+  addElement(): void {
     this.requestParamCount++;
 
     let childComponent = this.componentFactoryResolver.resolveComponentFactory(
@@ -40,5 +66,20 @@ export class EndpointFormComponent {
 
     this.componentRef = this.target.createComponent(childComponent);
     this.componentRef.setInput('requestParamCount', this.requestParamCount);
+  }
+
+  inputChange(): void {
+    this.endpointMap.set(
+      this.endpointCount,
+      (this.endpoint = {
+        endpointPath: this.endpointPath,
+        endpointDescription: this.endpointDescription,
+        exampleRequest: this.exampleRequest,
+        exampleResponse: this.exampleResponse,
+        requestParams: [],
+      })
+    );
+
+    this.endpointInfoEmitter.emit(this.endpointMap);
   }
 }
