@@ -1,24 +1,42 @@
 <div class="border border-danger-subtle p-2 rounded-4 mb-3">
-  <p class="text-danger fw-bold">Reuqest Parameter {{ requestParamCount }}</p>
+  <p class="text-danger">Reuqest Parameter {{ requestParamCount }}</p>
   <div class="row">
     <div class="col">
       <div class="form-floating mb-3">
-        <input [(ngModel)]="requestParam.field" (input)="inputChange()" type="text" class="form-control"
-          id="floatingInput" placeholder="example request parameter field" />
+        <input
+          [(ngModel)]="requestParam.field"
+          (input)="inputChange()"
+          type="text"
+          class="form-control"
+          id="floatingInput"
+          placeholder="example request parameter field"
+        />
         <label for="floatingInput">Request Parameter Field</label>
       </div>
     </div>
     <div class="col">
       <div class="form-floating mb-3">
-        <input [(ngModel)]="requestParam.type" (input)="inputChange()" type="text" class="form-control"
-          id="floatingInput" placeholder="example request parameter type" />
+        <input
+          [(ngModel)]="requestParam.type"
+          (input)="inputChange()"
+          type="text"
+          class="form-control"
+          id="floatingInput"
+          placeholder="example request parameter type"
+        />
         <label for="floatingInput">Request Parameter Type</label>
       </div>
     </div>
     <div class="col">
       <div class="form-floating">
-        <textarea [(ngModel)]="requestParam.description" (input)="inputChange()" type="text" class="form-control"
-          id="floatingInput" placeholder="example request parameter description"></textarea>
+        <textarea
+          [(ngModel)]="requestParam.description"
+          (input)="inputChange()"
+          type="text"
+          class="form-control"
+          id="floatingInput"
+          placeholder="example request parameter description"
+        ></textarea>
         <label for="floatingInput">Request Parameter Description</label>
       </div>
     </div>
@@ -28,7 +46,11 @@
 
   <div class="row justify-content-end">
     <div class="col-3">
-      <button type="button" class="w-100 float-end border-0 mb-2 btn btn-danger rounded-3" (click)="addElement()">
+      <button
+        type="button"
+        class="w-100 float-end border-0 mb-2 btn btn-danger rounded-3"
+        (click)="addElement()"
+      >
         Add validation <fa-icon [icon]="faPlus"></fa-icon>
       </button>
     </div>

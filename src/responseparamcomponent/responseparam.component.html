@@ -1,27 +1,44 @@
 <div class="border border-danger-subtle p-2 rounded-4 mb-3">
-    <p class="text-danger fw-bold">Reuqest Parameter {{ responseParamCount}}</p>
-    <div class="row">
-        <div class="col">
-            <div class="form-floating mb-3">
-                <input [(ngModel)]="responseParam.field" (input)="inputChange()" type="text" class="form-control"
-                    id="floatingInput" placeholder="example request parameter field" />
-                <label for="floatingInput">Request Parameter Field</label>
-            </div>
-        </div>
-        <div class="col">
-            <div class="form-floating mb-3">
-                <input [(ngModel)]="responseParam.type" (input)="inputChange()" type="text" class="form-control"
-                    id="floatingInput" placeholder="example request parameter type" />
-                <label for="floatingInput">Request Parameter Type</label>
-            </div>
-        </div>
-        <div class="col">
-            <div class="form-floating">
-                <textarea [(ngModel)]="responseParam.description" (input)="inputChange()" type="text"
-                    class="form-control" id="floatingInput"
-                    placeholder="example request parameter description"></textarea>
-                <label for="floatingInput">Request Parameter Description</label>
-            </div>
-        </div>
+  <p class="text-danger">Response Parameter {{ responseParamCount }}</p>
+  <div class="row">
+    <div class="col">
+      <div class="form-floating mb-3">
+        <input
+          [(ngModel)]="responseParam.field"
+          (input)="inputChange()"
+          type="text"
+          class="form-control"
+          id="floatingInput"
+          placeholder="example request parameter field"
+        />
+        <label for="floatingInput">Request Parameter Field</label>
+      </div>
     </div>
+    <div class="col">
+      <div class="form-floating mb-3">
+        <input
+          [(ngModel)]="responseParam.type"
+          (input)="inputChange()"
+          type="text"
+          class="form-control"
+          id="floatingInput"
+          placeholder="example request parameter type"
+        />
+        <label for="floatingInput">Request Parameter Type</label>
+      </div>
+    </div>
+    <div class="col">
+      <div class="form-floating">
+        <textarea
+          [(ngModel)]="responseParam.description"
+          (input)="inputChange()"
+          type="text"
+          class="form-control"
+          id="floatingInput"
+          placeholder="example request parameter description"
+        ></textarea>
+        <label for="floatingInput">Request Parameter Description</label>
+      </div>
+    </div>
+  </div>
 </div>

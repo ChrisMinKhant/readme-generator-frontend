@@ -12,6 +12,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { IconDefinition, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EventEmitter } from '@angular/core';
+import { ResponseParamComponent } from '../responseparamcomponent/responseparam.component';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'endpoint-form',
@@ -20,6 +22,7 @@ import { EventEmitter } from '@angular/core';
     FontAwesomeModule,
     FormsModule,
     ReactiveFormsModule,
+    NgIf
   ],
   standalone: true,
   templateUrl: './endpointform.component.html',
@@ -29,6 +32,7 @@ export class EndpointFormComponent {
   // Endpoint Object Structure Start
   endpointMap = new Map<number, any>();
   requestParamMap = new Map<number, any>();
+  responseParamMap = new Map<number, any>();
 
   endpoint = {
     path: '',
@@ -36,6 +40,7 @@ export class EndpointFormComponent {
     exampleRequest: '',
     exampleResponse: '',
     requestParams: Array.of(),
+    responseParams: Array.of(),
   };
   // Endpoint Object Structure End
 
@@ -49,7 +54,10 @@ export class EndpointFormComponent {
   responseParamCount: number = 0;
 
   @ViewChild('requestparam', { read: ViewContainerRef })
-  target: ViewContainerRef = null as any;
+  requestParamTarget: ViewContainerRef = null as any;
+
+  @ViewChild('responseparam', { read: ViewContainerRef })
+  responseParamTarget: ViewContainerRef = null as any;
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
 
@@ -60,7 +68,7 @@ export class EndpointFormComponent {
       RequestParamComponent
     );
 
-    this.componentRef = this.target.createComponent(childComponent);
+    this.componentRef = this.requestParamTarget.createComponent(childComponent);
     this.componentRef.setInput('requestParamCount', this.requestParamCount);
 
     // Subcribe to emitted event of loaded component
@@ -70,18 +78,17 @@ export class EndpointFormComponent {
   }
 
   addResponseElement(): void {
-    this.requestParamCount++;
+    this.responseParamCount++;
 
     let childComponent = this.componentFactoryResolver.resolveComponentFactory(
-      RequestParamComponent
+      ResponseParamComponent
     );
 
-    this.componentRef = this.target.createComponent(childComponent);
-    this.componentRef.setInput('requestParamCount', this.requestParamCount);
+    this.componentRef = this.responseParamTarget.createComponent(childComponent);
+    this.componentRef.setInput('responseParamCount', this.responseParamCount);
 
-    // Subcribe to emitted event of loaded component
-    this.componentRef.instance.requestParamEmitter.subscribe(
-      (emittedEvent: any) => this.emittedRequestParamInfo(emittedEvent)
+    this.componentRef.instance.responseParamEmitter.subscribe(
+      (emittedEvent: any) => this.emittedResponseParamInfo(emittedEvent)
     );
   }
 
@@ -108,6 +115,29 @@ export class EndpointFormComponent {
     });
 
     this.endpoint.requestParams = Array.from(this.requestParamMap.values());
+
+    this.endpointMap.set(this.endpointCount, this.endpoint);
+
+    this.endpointInfoEmitter.emit(this.endpointMap);
+  }
+
+  emittedResponseParamInfo(event: Map<number, any>): void {
+    // Check if there is any value with emitted key in endpoint map
+    this.responseParamMap.forEach((value, key) => {
+      event.forEach((eventValue, eventKey) => {
+        if (key == eventKey) {
+          this.responseParamMap.set(key, eventValue);
+          return;
+        }
+      });
+    });
+
+    // if not push new (key,valye) pair to endpoint map
+    event.forEach((eventValue, eventKey) => {
+      this.responseParamMap.set(eventKey, eventValue);
+    });
+
+    this.endpoint.responseParams = Array.from(this.responseParamMap.values());
 
     this.endpointMap.set(this.endpointCount, this.endpoint);
 

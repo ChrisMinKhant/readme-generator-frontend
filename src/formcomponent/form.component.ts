@@ -10,6 +10,7 @@ import { FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { IconDefinition, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { timeStamp } from 'node:console';
+import { RestApiService } from '../services/RestApiService/RestApiService';
 
 @Component({
   selector: 'next',
@@ -43,7 +44,10 @@ export class FormComponent {
   @ViewChild('endpointform', { read: ViewContainerRef })
   target: ViewContainerRef = null as any;
 
-  constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
+  constructor(
+    private componentFactoryResolver: ComponentFactoryResolver,
+    private apiService: RestApiService
+  ) {}
 
   addElement(): void {
     this.endpointCount++;
@@ -80,9 +84,6 @@ export class FormComponent {
 
   submitForm(): void {
     this.readMeInfo.endpoints = Array.from(this.endpointMap.values());
-
-    console.log(
-      'Fetched Submitted Endpoint => ' + JSON.stringify(this.readMeInfo)
-    );
+    this.apiService.submitReadMeInfoForm(JSON.stringify(this.readMeInfo));
   }
 }
