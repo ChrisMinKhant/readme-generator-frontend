@@ -9,6 +9,7 @@ import { EndpointFormComponent } from '../endpointformcomponent/endpointform.com
 import { FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { IconDefinition, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { timeStamp } from 'node:console';
 
 @Component({
   selector: 'next',
@@ -25,6 +26,14 @@ import { IconDefinition, faPlus } from '@fortawesome/free-solid-svg-icons';
 export class FormComponent {
   // Object Structure Start
   endpointMap = new Map<number, any>();
+
+  readMeInfo = {
+    serviceName: '',
+    serviceCategory: '',
+    serviceDescription: '',
+    generationDirectory: '',
+    endpoints: Array.of(),
+  };
   // Object Structure End
 
   faPlus: IconDefinition = faPlus;
@@ -69,13 +78,11 @@ export class FormComponent {
     });
   }
 
-  submitForm(form: NgForm): void {
-    console.log('Fetched readMeInfo => ' + JSON.stringify(form.value));
-
-    let endpointArray = Array.from(this.endpointMap.values());
+  submitForm(): void {
+    this.readMeInfo.endpoints = Array.from(this.endpointMap.values());
 
     console.log(
-      'Fetched Submitted Endpoint => ' + JSON.stringify(endpointArray)
+      'Fetched Submitted Endpoint => ' + JSON.stringify(this.readMeInfo)
     );
   }
 }

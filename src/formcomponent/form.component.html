@@ -1,24 +1,29 @@
-<form class="d-flex flex-column align-items-center" #readMeInfo="ngForm" (ngSubmit)="submitForm(readMeInfo)" action=""
-  method="post">
+<form class="d-flex flex-column align-items-center" (ngSubmit)="submitForm()" action="" method="post">
   <div class="d-flex flex-column justify-content-start shadow-sm p-2 rounded-4 mb-3 border border-danger-subtle">
     <div class=" d-flex justify-content-center full-div">
       <p class="fs-3 mb-3">Readme Info</p>
     </div>
 
     <div class="form-floating mb-3 full-div">
-      <input ngModel #serviceName="ngModel" type="text" name="serviceName" class="form-control" id="floatingInput"
+      <input [(ngModel)]="readMeInfo.serviceName" name="serviceName" type="text" class="form-control" id="floatingInput"
         placeholder="example service" />
       <label for="floatingInput">Service Name</label>
     </div>
 
     <div class="form-floating mb-3 full-div">
-      <input ngModel #serviceCategory="ngModel" type="text" name="serviceCategory" class="form-control"
+      <input [(ngModel)]="readMeInfo.serviceCategory" name="serviceCategory" type="text" class="form-control"
         id="floatingInput" placeholder="example category" />
       <label for="floatingInput">Service Category</label>
     </div>
 
     <div class="form-floating mb-3 full-div">
-      <input ngModel #generationDirectory="ngModel" type="text" name="generationDirectory" class="form-control"
+      <textarea [(ngModel)]="readMeInfo.serviceDescription" name="description" type="text" class="form-control"
+        id="floatingInput" placeholder="example response" style="height: 100px"></textarea>
+      <label for="floatingInput">Service Description</label>
+    </div>
+
+    <div class="form-floating mb-3 full-div">
+      <input [(ngModel)]="readMeInfo.generationDirectory" name="generationDirectory" type="text" class="form-control"
         id="floatingInput" placeholder="example directory" />
       <label for="floatingInput">Readme Generation Directory</label>
     </div>

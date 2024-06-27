@@ -28,19 +28,14 @@ import { EventEmitter } from '@angular/core';
 export class EndpointFormComponent {
   // Endpoint Object Structure Start
   endpointMap = new Map<number, any>();
-  requestParamMap = new Map<string, any>();
-
-  endpointPath: string = '';
-  endpointDescription: string = '';
-  exampleRequest: string = '';
-  exampleResponse: string = '';
+  requestParamMap = new Map<number, any>();
 
   endpoint = {
-    endpointPath: '',
-    endpointDescription: '',
+    path: '',
+    description: '',
     exampleRequest: '',
     exampleResponse: '',
-    requestParams: [],
+    requestParams: Array.of(),
   };
   // Endpoint Object Structure End
 
@@ -51,13 +46,14 @@ export class EndpointFormComponent {
 
   componentRef: ComponentRef<any> = null as any;
   requestParamCount: number = 0;
+  responseParamCount: number = 0;
 
   @ViewChild('requestparam', { read: ViewContainerRef })
   target: ViewContainerRef = null as any;
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver) {}
 
-  addElement(): void {
+  addRequestElement(): void {
     this.requestParamCount++;
 
     let childComponent = this.componentFactoryResolver.resolveComponentFactory(
@@ -66,19 +62,54 @@ export class EndpointFormComponent {
 
     this.componentRef = this.target.createComponent(childComponent);
     this.componentRef.setInput('requestParamCount', this.requestParamCount);
+
+    // Subcribe to emitted event of loaded component
+    this.componentRef.instance.requestParamEmitter.subscribe(
+      (emittedEvent: any) => this.emittedRequestParamInfo(emittedEvent)
+    );
+  }
+
+  addResponseElement(): void {
+    this.requestParamCount++;
+
+    let childComponent = this.componentFactoryResolver.resolveComponentFactory(
+      RequestParamComponent
+    );
+
+    this.componentRef = this.target.createComponent(childComponent);
+    this.componentRef.setInput('requestParamCount', this.requestParamCount);
+
+    // Subcribe to emitted event of loaded component
+    this.componentRef.instance.requestParamEmitter.subscribe(
+      (emittedEvent: any) => this.emittedRequestParamInfo(emittedEvent)
+    );
   }
 
   inputChange(): void {
-    this.endpointMap.set(
-      this.endpointCount,
-      (this.endpoint = {
-        endpointPath: this.endpointPath,
-        endpointDescription: this.endpointDescription,
-        exampleRequest: this.exampleRequest,
-        exampleResponse: this.exampleResponse,
-        requestParams: [],
-      })
-    );
+    this.endpointMap.set(this.endpointCount, this.endpoint);
+
+    this.endpointInfoEmitter.emit(this.endpointMap);
+  }
+
+  emittedRequestParamInfo(event: Map<number, any>): void {
+    // Check if there is any value with emitted key in endpoint map
+    this.requestParamMap.forEach((value, key) => {
+      event.forEach((eventValue, eventKey) => {
+        if (key == eventKey) {
+          this.requestParamMap.set(key, eventValue);
+          return;
+        }
+      });
+    });
+
+    // if not push new (key,valye) pair to endpoint map
+    event.forEach((eventValue, eventKey) => {
+      this.requestParamMap.set(eventKey, eventValue);
+    });
+
+    this.endpoint.requestParams = Array.from(this.requestParamMap.values());
+
+    this.endpointMap.set(this.endpointCount, this.endpoint);
 
     this.endpointInfoEmitter.emit(this.endpointMap);
   }

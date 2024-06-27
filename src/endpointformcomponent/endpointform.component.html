@@ -1,28 +1,28 @@
 <div class="border border-danger-subtle p-2 rounded-4 mb-3">
   <p class="text-danger fw-bold">Endpoint {{ endpointCount }}</p>
   <div class="form-floating mb-3 full-div">
-    <input [(ngModel)]="endpointPath" (input)="inputChange()" type="text" class="form-control" id="floatingInput"
+    <input [(ngModel)]="endpoint.path" (input)="inputChange()" type="text" class="form-control" id="floatingInput"
       placeholder="example path" />
     <label for="floatingInput">Endpoint Path</label>
   </div>
 
   <div class="form-floating mb-3 full-div">
-    <input [(ngModel)]="endpointDescription" (input)="inputChange()" type="text" class="form-control" id="floatingInput"
-      placeholder="example description" />
+    <input [(ngModel)]="endpoint.description" (input)="inputChange()" type="text" class="form-control"
+      id="floatingInput" placeholder="example description" />
     <label for="floatingInput">Endpoint Description</label>
   </div>
 
   <div class="row">
     <div class="col">
       <div class="form-floating mb-3 full-div">
-        <textarea [(ngModel)]="exampleRequest" (input)="inputChange()" type="text" class="form-control"
+        <textarea [(ngModel)]="endpoint.exampleRequest" (input)="inputChange()" type="text" class="form-control"
           id="floatingInput" placeholder="example request" style="height: 100px"></textarea>
         <label for="floatingInput">Example Request</label>
       </div>
     </div>
     <div class="col">
       <div class="form-floating full-div">
-        <textarea [(ngModel)]="exampleResponse" (input)="inputChange()" type="text" class="form-control"
+        <textarea [(ngModel)]="endpoint.exampleResponse" (input)="inputChange()" type="text" class="form-control"
           id="floatingInput" placeholder="example response" style="height: 100px"></textarea>
         <label for="floatingInput">Example Response</label>
       </div>
@@ -30,11 +30,19 @@
   </div>
 
   <div #requestparam></div>
+  <div #responseparam></div>
 
   <div class="row justify-content-end">
     <div class="col-3">
-      <button type="button" class="w-100 float-end border-0 mb-2 btn btn-danger rounded-3" (click)="addElement()">
+      <button type="button" class="w-100 float-end border-0 mb-2 btn btn-danger rounded-3"
+        (click)="addRequestElement()">
         Add request parameter <fa-icon [icon]="faPlus"></fa-icon>
+      </button>
+    </div>
+    <div class="col-3">
+      <button type="button" class="w-100 float-end border-0 mb-2 btn btn-danger rounded-3"
+        (click)="addResponseElement()">
+        Add response parameter <fa-icon [icon]="faPlus"></fa-icon>
       </button>
     </div>
   </div>

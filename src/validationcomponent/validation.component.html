@@ -3,15 +3,15 @@
     <div class="row">
         <div class="col">
             <div class="form-floating mb-3">
-                <input type="text" class="form-control" id="floatingInput"
-                    placeholder="example request parameter field" />
+                <input [(ngModel)]="validation.name" (input)="inputChange()" type="text" class="form-control"
+                    id="floatingInput" placeholder="example request parameter field" />
                 <label for="floatingInput">Validation Name</label>
             </div>
         </div>
         <div class="col">
             <div class="form-floating">
-                <textarea type="text" class="form-control" id="floatingInput"
-                    placeholder="example request parameter description"></textarea>
+                <textarea [(ngModel)]="validation.description" (input)="inputChange()" type="text" class="form-control"
+                    id="floatingInput" placeholder="example request parameter description"></textarea>
                 <label for="floatingInput">Validation Description</label>
             </div>
         </div>
