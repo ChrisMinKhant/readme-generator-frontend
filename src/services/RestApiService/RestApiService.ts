@@ -1,32 +1,21 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RestApiService {
+  private apiUrl = 'http://localhost:8080/generate';
+
   constructor(private http: HttpClient) {}
 
-  metaData: any = {
-    headers: new Headers({
+  postData(data: any): Observable<any> {
+    const header = new HttpHeaders({
+      'Access-Control-Allow-Origin': '*',
       'Content-Type': 'application/json',
-    }),
-  };
+    });
 
-  submitReadMeInfoForm(readMeInfo: any): void {
-    let backendEndpointUrl: string = 'http://localhost:8080/generate';
-    console.log(
-      'Fetched submitted readMeInfo ::: ' + JSON.stringify(readMeInfo)
-    );
-
-    this.http.post(backendEndpointUrl, readMeInfo, this.metaData).subscribe(
-      (response) => {
-        console.log('POST request successful:', response);
-      },
-      (error) => {
-        console.error('Error during POST request:', error);
-      }
-    );
+    return this.http.post(this.apiUrl, data, { headers: header });
   }
 }
