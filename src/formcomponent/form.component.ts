@@ -84,6 +84,6 @@ export class FormComponent {
 
   submitForm(): void {
     this.readMeInfo.endpoints = Array.from(this.endpointMap.values());
-    this.apiService.postData(this.readMeInfo).subscribe();
+    this.apiService.postData(this.readMeInfo);
   }
 }

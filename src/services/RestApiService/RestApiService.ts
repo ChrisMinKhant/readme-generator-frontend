@@ -1,6 +1,9 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -8,14 +11,20 @@ import { Observable } from 'rxjs';
 export class RestApiService {
   private apiUrl = 'http://localhost:8080/generate';
 
+  header = new HttpHeaders({
+    'Content-Type': 'application/json',
+  });
+
   constructor(private http: HttpClient) {}
 
-  postData(data: any): Observable<any> {
-    const header = new HttpHeaders({
-      'Access-Control-Allow-Origin': '*',
-      'Content-Type': 'application/json',
-    });
-
-    return this.http.post(this.apiUrl, data, { headers: header });
+  postData(data: any): void {
+    this.http.post(this.apiUrl, data, { headers: this.header }).subscribe(
+      (data) => {
+        console.log('Fetched response data ::: ' + JSON.stringify(data));
+      },
+      (error: HttpErrorResponse) => {
+        console.log('Fetched error response ::: ' + JSON.stringify(error));
+      }
+    );
   }
 }
